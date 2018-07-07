@@ -22,7 +22,7 @@ defmodule Steamex.Auth.Phoenix do
 
     In your router.ex (outside of any scopes, next to your routes):
 
-      steamex_route_auth
+      steamex_route_auth()
 
     In your views, when you want to include a link to log in:
 
