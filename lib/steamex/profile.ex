@@ -125,6 +125,26 @@ defmodule Steamex.Profile do
     end
   end
 
+  @doc """
+  Fetch the profile for the given 64-bit community SteamID or custom URL.
+  """
+  @spec fetch(pos_integer | binary) :: Steamex.Profile.t()
+  def fetch_custom_api(url) do
+    fetch_custom_api(url, HTTPoison)
+  end
+
+  @doc false
+  def fetch_custom_api(url, httpoison) do
+    Application.ensure_all_started(:httpoison)
+
+    response = httpoison.get!(url, [], hackney: [follow_redirect: true])
+
+    case response do
+      %HTTPoison.Response{status_code: 200, body: body} -> from_xml(body)
+      resp -> raise "Steam profile could not be loaded: #{inspect(resp)}"
+    end
+  end
+
   @doc false
   defp from_xml(doc) do
     profile = xpath(doc, ~x"//profile")

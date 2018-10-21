@@ -98,4 +98,5 @@ defmodule Steamex.SteamID do
   def base_url(community_id_or_custom_url) when is_binary(community_id_or_custom_url) do
     "http://steamcommunity.com/id/#{community_id_or_custom_url}"
   end
+
 end
