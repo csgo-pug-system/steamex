@@ -27,16 +27,22 @@ defmodule Steamex.Auth.Phoenix.View do
 
     helpers = Module.concat(phoenix_controller.router_module(conn), Helpers)
 
-    realm = helpers.url(conn)
+    # realm = helpers.url(conn)
+    realm = "localhost"
 
-    return_to = apply(helpers, options[:return_to_helper], [conn, []])
+    # return_to = apply(helpers, options[:return_to_helper], [conn, []])
+    return_to = options[:redirect_to] || apply(helpers, options[:return_to_helper], [conn, []])
+    realm = return_to
 
-    return_to =
-      if redirect_to = options[:redirect_to] do
-        return_to <> "?" <> URI.encode_query(%{redirect_to: redirect_to})
-      else
-        return_to
-      end
+
+    #return_to = 
+    #  if redirect_to = options[:redirect_to] ->
+    #    return_to <> "?" <> URI.encode_query(%{redirect_to: redirect_to})
+    #  else ->
+    #      return_to
+    #  end
+
+    IO.inspect return_to
 
     Steamex.Auth.auth_url(realm, return_to)
   end
